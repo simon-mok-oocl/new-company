@@ -19,32 +19,38 @@ public class CompanyController {
     }
 
     @GetMapping
-    public List<CompanyResponse> getAllCompany()
-    {
+    public List<CompanyResponse> getAllCompany() {
         return this.companyService.getAll();
     }
 
     @PutMapping("/{id}")
-    public CompanyResponse updateCompany(@PathVariable String id , @RequestBody CompanyRequest request)
-    {
-        return this.companyService.updateCompany(id , request);
+    public CompanyResponse updateCompany(@PathVariable String id, @RequestBody CompanyRequest request) {
+        return this.companyService.updateCompany(id, request);
     }
 
     @PostMapping
-    public CompanyResponse addCompany(@RequestBody CompanyRequest newCompany)
-    {
+    public CompanyResponse addCompany(@RequestBody CompanyRequest newCompany) {
         return this.companyService.addCompany(newCompany);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCompany(@PathVariable String id)
-    {
+    public void deleteCompany(@PathVariable String id) {
         this.companyService.removeCompany(id);
     }
 
     @GetMapping("/{id}/employees")
-    public List<EmployeeResponse> getEmployeeByCompany(@PathVariable String id)
-    {
+    public List<EmployeeResponse> getEmployeeByCompany(@PathVariable String id) {
         return this.companyService.getEmployeeByCompany(id);
+    }
+
+    @GetMapping(params = {"page", "pageSize"})
+    public List<CompanyResponse> getCompanyByPage(@RequestParam Integer page, @RequestParam Integer pageSize) {
+        return this.companyService.getCompanyByPage(page, pageSize);
+    }
+
+    @GetMapping("/{id}")
+    public CompanyResponse getCompanyById(@PathVariable String id)
+    {
+        return this.companyService.getCompanyById(id);
     }
 }
