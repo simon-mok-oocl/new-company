@@ -3,13 +3,13 @@ package com.example.newcompnay.Service;
 import com.example.newcompnay.Entity.Employee;
 import com.example.newcompnay.Exception.NoSuchEmployeeException;
 import com.example.newcompnay.Repository.EmployeeRepository;
+import com.example.newcompnay.dto.EmployeeRequest;
 import com.example.newcompnay.dto.EmployeeResponse;
 import com.example.newcompnay.mapper.EmployeeMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -22,16 +22,26 @@ public class EmployeeService {
     }
 
     public List<EmployeeResponse> getAll() {
-        List<EmployeeResponse> result = new ArrayList<>();
+        List<EmployeeResponse> employees= new ArrayList<>();
+        this.employeeRepository.findAll().stream()
+                .forEach(employee -> employees.add(employeeMapper.toDto(employee)));
 
-        this.employeeRepository.findAll()
-                .stream()
-                .forEach(employee -> result.add(employeeMapper.toDto(employee)));
-
-        return result;
+        return employees;
     }
 
     public EmployeeResponse getById(String id) {
         return employeeMapper.toDto(this.employeeRepository.findById(id).orElseThrow(NoSuchEmployeeException::new));
+    }
+
+    public EmployeeResponse updateEmployee(String id , EmployeeRequest patch)
+    {
+        Employee useEmployee = this.employeeRepository.findById(id).orElseThrow(NoSuchEmployeeException::new);
+
+        if(patch.getAge() != null)
+            useEmployee.setAge(patch.getAge());
+        if(patch.getSalary() != null)
+            useEmployee.setSalary(patch.getSalary());
+
+        return this.employeeMapper.toDto(this.employeeRepository.save(useEmployee));
     }
 }
