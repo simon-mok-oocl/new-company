@@ -52,4 +52,8 @@ public class EmployeeService {
 
         return employees;
     }
+
+    public EmployeeResponse addEmployee(EmployeeRequest newEmployee) {
+        return this.employeeMapper.toDto(this.employeeRepository.save(employeeMapper.toEntity(newEmployee)));
+    }
 }

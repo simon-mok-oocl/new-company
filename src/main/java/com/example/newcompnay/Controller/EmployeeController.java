@@ -46,4 +46,10 @@ public class EmployeeController {
     {
         return this.employeeService.getEmployeeByGender(gender);
     }
+
+    @PostMapping
+    public EmployeeResponse addEmployee(@RequestBody EmployeeRequest newEmployee)
+    {
+        return this.employeeService.addEmployee(newEmployee);
+    }
 }
