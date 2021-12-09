@@ -6,6 +6,7 @@ import com.example.newcompnay.dto.EmployeeRequest;
 import com.example.newcompnay.dto.EmployeeResponse;
 import com.example.newcompnay.mapper.EmployeeMapper;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -48,8 +49,21 @@ public class EmployeeController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public EmployeeResponse addEmployee(@RequestBody EmployeeRequest newEmployee)
     {
         return this.employeeService.addEmployee(newEmployee);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteEmployee(@PathVariable String id)
+    {
+        this.employeeService.removeEmployee(id);
+    }
+
+    @GetMapping(params = {"page" , "pageSize"})
+    public List<EmployeeResponse> getEmployeeByPage(@RequestParam Integer page , @RequestParam Integer pageSize)
+    {
+        return this.employeeService.getEmployeeInPage(page , pageSize);
     }
 }

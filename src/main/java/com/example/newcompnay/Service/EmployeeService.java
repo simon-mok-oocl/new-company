@@ -6,6 +6,7 @@ import com.example.newcompnay.Repository.EmployeeRepository;
 import com.example.newcompnay.dto.EmployeeRequest;
 import com.example.newcompnay.dto.EmployeeResponse;
 import com.example.newcompnay.mapper.EmployeeMapper;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -55,5 +56,18 @@ public class EmployeeService {
 
     public EmployeeResponse addEmployee(EmployeeRequest newEmployee) {
         return this.employeeMapper.toDto(this.employeeRepository.save(employeeMapper.toEntity(newEmployee)));
+    }
+
+    public void removeEmployee(String id) {
+        Employee rip = this.employeeRepository.findById(id).orElseThrow(NoSuchEmployeeException::new);
+        this.employeeRepository.delete(rip);
+    }
+
+    public List<EmployeeResponse> getEmployeeInPage(Integer page, Integer pageSize) {
+        List<EmployeeResponse> employees= new ArrayList<>();
+        this.employeeRepository.findAll(PageRequest.of(page - 1 , pageSize)).stream()
+                .forEach(employee -> employees.add(employeeMapper.toDto(employee)));
+
+        return employees;
     }
 }
