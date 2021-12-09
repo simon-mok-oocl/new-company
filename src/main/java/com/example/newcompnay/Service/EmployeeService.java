@@ -44,4 +44,12 @@ public class EmployeeService {
 
         return this.employeeMapper.toDto(this.employeeRepository.save(useEmployee));
     }
+
+    public List<EmployeeResponse> getEmployeeByGender(String gender) {
+        List<EmployeeResponse> employees= new ArrayList<>();
+        this.employeeRepository.findAllByGender(gender).stream()
+                .forEach(employee -> employees.add(employeeMapper.toDto(employee)));
+
+        return employees;
+    }
 }
