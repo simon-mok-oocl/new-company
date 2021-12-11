@@ -21,11 +21,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
@@ -75,28 +77,34 @@ public class CompanyServiceTest {
         assertEquals(companyPatch , patchedCompany);
     }
 
-//    @Test
-//    public void should_return_company_when_getCompanyById_given_company()
-//    {
-//        // given
-//        Company company = new Company("1", "spring");
-//        given(companyRepository.findById(any())).willReturn(java.util.Optional.of(company));
-//
-//        Employee employee = new Employee("1" , "employee" , 1 , "male" , 2,  "1");
-//        EmployeeResponse employeeResponse = new EmployeeResponse();
-//        BeanUtils.copyProperties(employee , employeeResponse);
-//        given(companyService.getEmployeeByCompany(any())).willReturn(Collections.singletonList(employeeResponse));
-//
-//        // when
-//        CompanyResponse actual = companyService.getCompanyById("1");
-//
-//        // then
-//
-//        assertEquals("1" , actual.getId());
-//        assertEquals("spring" , actual.getName());
-//        assertEquals(employeeResponse , actual.getEmployees().get(0));
-//
-//    }
+    @Test
+    public void should_return_company_when_getCompanyById_given_company()
+    {
+        // given
+        Company company = new Company("1", "spring");
+        given(companyRepository.findById(any())).willReturn(java.util.Optional.of(company));
+
+        Employee employee = new Employee("1" , "employee" , 1 , "male" , 2,  "1");
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee);
+        //BeanUtils.copyProperties(employee , employeeResponse);
+        given(employeeRepository.findAllByCompanyId(any())).willReturn(employees);
+
+        // when
+        CompanyResponse actual = companyService.getCompanyById("1");
+
+        // then
+        EmployeeResponse expectedEmployee = new EmployeeResponse();
+        BeanUtils.copyProperties(employee , expectedEmployee);
+        List<EmployeeResponse> expectedEmployeeList = new ArrayList<>();
+        expectedEmployeeList.add(expectedEmployee);
+
+
+        assertEquals("1" , actual.getId());
+        assertEquals("spring" , actual.getName());
+        assertEquals( expectedEmployeeList, actual.getEmployees());
+
+    }
 
     @Test
     public void should_add_company_when_addCompany_given_company()
