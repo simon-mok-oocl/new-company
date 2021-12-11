@@ -16,6 +16,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -134,5 +136,20 @@ public class CompanyServiceTest {
         expected.add(employeeResponse);
         assertEquals(expected , actual);
     }
+
+    @Test
+    public void should_return_company_page_when_getCompanyByPage_given_page_pageSize()
+    {
+        Company company = new Company("1", "spring");
+        List<Company> companies = new ArrayList<>();
+        companies.add(company);
+        given(companyRepository.findAll(PageRequest.of(0 , 1))).willReturn(new PageImpl<>(companies , PageRequest.of(0,1) ,1));
+
+        List<Company> actual = companyService.getCompanyByPage(1,1);
+
+        assertEquals(companies , actual);
+
+    }
+
 
 }

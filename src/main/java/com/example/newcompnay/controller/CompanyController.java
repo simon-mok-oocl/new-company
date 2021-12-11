@@ -47,7 +47,7 @@ public class CompanyController {
     }
 
     @GetMapping(params = {"page", "pageSize"})
-    public List<CompanyResponse> getCompanyByPage(@RequestParam Integer page, @RequestParam Integer pageSize) {
+    public List<Company> getCompanyByPage(@RequestParam Integer page, @RequestParam Integer pageSize) {
         return this.companyService.getCompanyByPage(page, pageSize);
     }
 

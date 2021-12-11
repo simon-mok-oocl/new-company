@@ -59,12 +59,8 @@ public class CompanyService {
         return employees;
     }
 
-    public List<CompanyResponse> getCompanyByPage(Integer page, Integer pageSize) {
-        List<CompanyResponse> companies = new ArrayList<>();
-        this.companyRepository.findAll(PageRequest.of(page -1 , pageSize)).stream()
-                .forEach(company -> companies.add(companyMapper.toDto(company , null)));
-
-        return companies;
+    public List<Company> getCompanyByPage(Integer page, Integer pageSize) {
+        return companyRepository.findAll(PageRequest.of(page -1 , pageSize)).getContent();
     }
 
     public CompanyResponse getCompanyById(String id) {
