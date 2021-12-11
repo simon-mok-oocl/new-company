@@ -29,18 +29,19 @@ public class EmployeeServiceTest
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    // default test data
+    Employee c1e1 = new Employee("61b44db656be228d3166ebb2" , "c1e1" , 111 , "male" , 112 , "1");
+    Employee c1e2 = new Employee("61b44db656be228d3166ebb3" , "c1e2" , 121 , "female" , 122 , "1");
+
+    Employee c2e1 = new Employee("61b44db656be228d3166ebb4" , "c2e1" , 211 , "male" , 212 , "2");
+    Employee c2e2 = new Employee("61b44db656be228d3166ebb5" , "c2e2" , 221 , "female" , 222 , "2");
+
+    Employee c3e1 = new Employee("61b44db656be228d3166ebb6" , "c3e1" , 311 , "male" , 312 , "3");
+    Employee c3e2 = new Employee("61b44db656be228d3166ebb7" , "c3e2" , 321 , "female" , 322 , "3");
+
     @BeforeEach
     void setUp() {
         employeeRepository.deleteAll();
-
-        Employee c1e1 = new Employee("61b44db656be228d3166ebb2" , "c1e1" , 111 , "male" , 112 , "1");
-        Employee c1e2 = new Employee("61b44db656be228d3166ebb3" , "c1e2" , 121 , "female" , 122 , "1");
-
-        Employee c2e1 = new Employee("61b44db656be228d3166ebb4" , "c2e1" , 211 , "male" , 212 , "2");
-        Employee c2e2 = new Employee("61b44db656be228d3166ebb5" , "c2e2" , 221 , "female" , 222 , "2");
-
-        Employee c3e1 = new Employee("61b44db656be228d3166ebb6" , "c3e1" , 311 , "male" , 312 , "3");
-        Employee c3e2 = new Employee("61b44db656be228d3166ebb7" , "c3e2" , 321 , "female" , 322 , "3");
 
         employeeRepository.save(c1e1);
         employeeRepository.save(c1e2);
@@ -108,5 +109,14 @@ public class EmployeeServiceTest
 
     }
 
-
+    @Test
+    public void should_get_correct_employee_when_get_employee_by_id_given_id() throws Exception {
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees/{id}" , c2e1.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.id").isString())
+                .andExpect(jsonPath("$.name").value("c2e1"))
+                .andExpect(jsonPath("$.age").value(211))
+                .andExpect(jsonPath("$.gender").value("male"));
+    }
 }
