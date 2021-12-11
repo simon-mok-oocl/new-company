@@ -71,6 +71,27 @@ public class EmployeeServiceTest {
 
     }
 
-    
+    @Test
+    public void should_return_correct_gender_list_when_getEmployeeByGender_given_gender()
+    {
+        // given
+        Employee employee1 = new Employee("1" , "employee 1" , 10 , "male" , 100 , "1");
+        List<Employee> male = new ArrayList<>();
+        male.add(employee1);
+        given(employeeRepository.findAllByGender(any())).willReturn(male);
+
+        // when
+        List<EmployeeResponse> actual = employeeService.getEmployeeByGender("male");
+
+        // then
+        EmployeeResponse employeeResponse = new EmployeeResponse();
+        BeanUtils.copyProperties(employee1 , employeeResponse);
+        List<EmployeeResponse> expected = new ArrayList<>();
+        expected.add(employeeResponse);
+
+        assertEquals(expected , actual);
+
+    }
+
 
 }
