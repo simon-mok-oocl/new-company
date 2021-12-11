@@ -92,4 +92,30 @@ public class CompanyControllerTest {
 
     }
 
+    @Test
+    public void should_get_all_employees_under_company_when_getAllEmployeesByCompanyId_given_id() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies/{id}/employees", c3.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$[0].name").value("c3e1"))
+                .andExpect(jsonPath("$[0].age").value(311))
+                .andExpect(jsonPath("$[0].gender").value("male"))
+                .andExpect(jsonPath("$[1].name").value("c3e2"))
+                .andExpect(jsonPath("$[1].age").value(321))
+                .andExpect(jsonPath("$[1].gender").value("female"));
+
+    }
+
+    @Test
+    public void should_comapny_in_page_under_company_when_getAllCompanyByPage_given_page_pageSize() throws Exception {
+        mockMvc.perform((MockMvcRequestBuilders.get("/companies").param("page", "2")).param("pageSize" , "2"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$",hasSize(1)))
+                .andExpect(jsonPath("$[0].id").value(c3.getId()))
+                .andExpect(jsonPath("$[0].name").value("c3"));
+
+    }
+
+
+
 }
