@@ -2,6 +2,7 @@ package com.example.newcompnay.Service;
 
 import com.example.newcompnay.dto.EmployeeRequest;
 import com.example.newcompnay.dto.EmployeeResponse;
+import com.example.newcompnay.entity.Company;
 import com.example.newcompnay.entity.Employee;
 import com.example.newcompnay.repository.EmployeeRepository;
 import com.example.newcompnay.service.EmployeeService;
@@ -11,6 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -152,4 +155,24 @@ public class EmployeeServiceTest {
         assertEquals(expected , actual);
     }
 
+    @Test
+    public void should_return_employee_page_when_getCompanyByPage_given_page_pageSize()
+    {
+        // given
+        Employee employee =  new Employee("1" , "employee 1" , 10 , "male" , 100,"1");
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee);
+        given(employeeRepository.findAll(PageRequest.of(0 , 1))).willReturn(new PageImpl<>( employees, PageRequest.of(0,1) ,1));
+
+        // when
+        List<EmployeeResponse> actual = employeeService.getEmployeeInPage(1,1);
+
+        // then
+        EmployeeResponse employeeResponse = new EmployeeResponse();
+        BeanUtils.copyProperties(employee , employeeResponse);
+        List<EmployeeResponse> employeeResponseList = new ArrayList<>();
+        employeeResponseList.add(employeeResponse);
+        assertEquals(employeeResponseList , actual);
+
+    }
 }

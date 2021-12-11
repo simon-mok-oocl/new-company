@@ -44,13 +44,16 @@ public class CompanyServiceTest {
 
     @Test
     public void should_return_company_list_when_getCompanyList() {
+        // given
         Company company = new Company("1", "spring");
         List<Company> companies = new ArrayList<>();
         companies.add(company);
         given(companyRepository.findAll()).willReturn(companies);
 
+        // when
         List<Company> actual = companyService.getAll();
 
+        // then
         assertEquals(companies, actual);
 
     }
@@ -115,8 +118,10 @@ public class CompanyServiceTest {
         BeanUtils.copyProperties(company , companyRequest);
         given(companyRepository.save(any())).willReturn(company);
 
+        // when
         Company actual = companyService.addCompany(companyRequest);
 
+        // then
         assertEquals(company , actual);
 
     }
@@ -148,13 +153,16 @@ public class CompanyServiceTest {
     @Test
     public void should_return_company_page_when_getCompanyByPage_given_page_pageSize()
     {
+        // given
         Company company = new Company("1", "spring");
         List<Company> companies = new ArrayList<>();
         companies.add(company);
         given(companyRepository.findAll(PageRequest.of(0 , 1))).willReturn(new PageImpl<>(companies , PageRequest.of(0,1) ,1));
 
+        // when
         List<Company> actual = companyService.getCompanyByPage(1,1);
 
+        // then
         assertEquals(companies , actual);
 
     }
@@ -162,11 +170,14 @@ public class CompanyServiceTest {
     @Test
     public void should_return_company_when_deleteCompany_given_company()
     {
+        // given
         Company company = new Company("1", "spring");
         given(companyRepository.findById(any())).willReturn(java.util.Optional.of(company));
 
-       companyService.removeCompany("1");
+       // when
+        companyService.removeCompany("1");
 
+        // then
         verify(companyRepository).delete(company);
 
     }
