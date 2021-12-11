@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
@@ -44,7 +45,7 @@ public class EmployeeServiceTest {
         EmployeeResponse employeeResponse2 = new EmployeeResponse();
         BeanUtils.copyProperties(employee1 , employeeResponse1);
         BeanUtils.copyProperties(employee2 , employeeResponse2);
-        
+
         List<EmployeeResponse> expected = new ArrayList<>();
         expected.add(employeeResponse1);
         expected.add(employeeResponse2);
@@ -52,4 +53,24 @@ public class EmployeeServiceTest {
         assertEquals(expected , actual);
 
     }
+
+    @Test
+    public void should_return_correct_employee_list_when_getEmployee_given_id()
+    {
+        // given
+        Employee employee = new Employee("1" , "employee 1" , 10 , "male" , 100 , "1");
+        given(employeeRepository.findById(any())).willReturn(java.util.Optional.of(employee));
+
+        // when
+        EmployeeResponse actual = employeeService.getById("1");
+
+        // then
+        EmployeeResponse expected = new EmployeeResponse();
+        BeanUtils.copyProperties(employee , expected);
+        assertEquals(expected , actual);
+
+    }
+
+    
+
 }
