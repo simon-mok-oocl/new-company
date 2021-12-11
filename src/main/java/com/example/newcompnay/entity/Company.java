@@ -36,4 +36,13 @@ public class Company {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        boolean sameId = ((Company)obj).getId().equals(this.id);
+        boolean sameName = ((Company)obj).getName().equals(this.name);
+
+        return sameId && sameName;
+    }
 }

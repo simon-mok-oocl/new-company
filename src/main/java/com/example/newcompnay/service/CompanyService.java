@@ -33,13 +33,13 @@ public class CompanyService {
         return this.companyRepository.findAll();
     }
 
-    public CompanyResponse updateCompany(String id , CompanyRequest request) {
+    public Company updateCompany(String id , CompanyRequest request) {
         Company useCompany = this.companyRepository.findById(id).orElseThrow(NoSuchCompanyException::new);
 
         if(request.getName() != null)
             useCompany.setName(request.getName());
 
-        return this.companyMapper.toDto(this.companyRepository.save(useCompany) , null);
+        return this.companyRepository.save(useCompany);
     }
 
     public CompanyResponse addCompany(CompanyRequest newCompany) {
