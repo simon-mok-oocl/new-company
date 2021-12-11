@@ -1,5 +1,6 @@
 package com.example.newcompnay.Service;
 
+import com.example.newcompnay.dto.EmployeeRequest;
 import com.example.newcompnay.dto.EmployeeResponse;
 import com.example.newcompnay.entity.Employee;
 import com.example.newcompnay.repository.EmployeeRepository;
@@ -18,6 +19,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 public class EmployeeServiceTest {
@@ -93,5 +96,60 @@ public class EmployeeServiceTest {
 
     }
 
+    @Test
+    void should_return_edited_employee_when_editEmployee_given_employee_patch()
+    {
+        // given
+        Employee employee = new Employee("1" , "employee 1" , 10 , "male" , 100 ,"1" );
+        given(employeeRepository.findById(any())).willReturn(java.util.Optional.of(employee));
+
+        employee.setAge(11);
+        employee.setSalary(200);
+        given(employeeRepository.save(any())).willReturn(employee);
+
+        // when
+        EmployeeRequest employeePatch = new EmployeeRequest();
+        employeePatch.setAge(11);
+        employeePatch.setSalary(200);
+        EmployeeResponse actual = employeeService.updateEmployee("1" , employeePatch);
+
+        // then
+        EmployeeResponse expected = new EmployeeResponse();
+        BeanUtils.copyProperties(employee , expected);
+        assertEquals(expected , actual);
+    }
+
+    @Test
+    void should_return_deleted_employee_when_delete_employee_given_employee()
+    {
+        // given
+        Employee employee = new Employee("1" , "employee 1" , 10 , "male" , 100,"1");
+        given(employeeRepository.findById(any())).willReturn(java.util.Optional.of(employee));
+
+        // when
+        employeeService.removeEmployee("1");
+
+        // then
+        verify(employeeRepository).delete(employee);
+    }
+
+    @Test
+    void should_return_new_employee_when_addEmployee_given_new_employee()
+    {
+        // given
+        Employee employee = new Employee("1" , "employee 1" , 10 , "male" , 100,"1");
+        EmployeeRequest request = new EmployeeRequest();
+        BeanUtils.copyProperties(employee , request);
+
+        given(employeeRepository.save(any())).willReturn(employee);
+
+        // when
+        EmployeeResponse actual = employeeService.addEmployee(request);
+
+        // then
+        EmployeeResponse expected = new EmployeeResponse();
+        BeanUtils.copyProperties(employee , expected);
+        assertEquals(expected , actual);
+    }
 
 }
