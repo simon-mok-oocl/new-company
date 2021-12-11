@@ -2,7 +2,11 @@ package com.example.newcompnay.Service;
 
 import com.example.newcompnay.dto.CompanyRequest;
 import com.example.newcompnay.dto.CompanyResponse;
+import com.example.newcompnay.dto.EmployeeRequest;
+import com.example.newcompnay.dto.EmployeeResponse;
 import com.example.newcompnay.entity.Company;
+import com.example.newcompnay.entity.Employee;
+import com.example.newcompnay.mapper.EmployeeMapper;
 import com.example.newcompnay.repository.CompanyRepository;
 import com.example.newcompnay.repository.EmployeeRepository;
 import com.example.newcompnay.service.CompanyService;
@@ -11,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -31,6 +36,7 @@ public class CompanyServiceTest {
 
     @InjectMocks
     CompanyService companyService;
+
 
     @Test
     public void should_return_company_list_when_getCompanyList() {
@@ -103,6 +109,30 @@ public class CompanyServiceTest {
 
         assertEquals(company , actual);
 
+    }
+
+    @Test
+    public void should_return_employee_when_getEmployeeByCompany_given_company_id()
+    {
+        // given
+        Company company = new Company("1", "spring");
+        Employee employee = new Employee("1" , "employee 1" , 1, "female" ,1 , "1");
+        companyRepository.save(company);
+        employeeRepository.save(employee);
+
+        List<Employee> employees = new ArrayList<>();
+        employees.add(employee);
+        given(employeeRepository.findAllByCompanyId(any())).willReturn(employees);
+
+        // when
+        List<EmployeeResponse> actual = companyService.getEmployeeByCompany("1");
+
+        // then
+        EmployeeResponse employeeResponse = new EmployeeResponse();
+        BeanUtils.copyProperties(employee , employeeResponse);
+        List<EmployeeResponse> expected = new ArrayList<>();
+        expected.add(employeeResponse);
+        assertEquals(expected , actual);
     }
 
 }
