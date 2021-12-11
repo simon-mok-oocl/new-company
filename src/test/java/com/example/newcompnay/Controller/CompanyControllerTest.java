@@ -74,4 +74,22 @@ public class CompanyControllerTest {
                 .andExpect(jsonPath("$[2].name").value("c3"));
 
     }
+
+    @Test
+    public void should_return_correct_companies_when_getAllCompanies_given_id() throws Exception {
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.get("/companies/{id}" , c2.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.id").value(c2.getId()))
+                .andExpect(jsonPath("$.name").value("c2"))
+                .andExpect(jsonPath("$.employees", hasSize(2)))
+                .andExpect(jsonPath("$.employees[0].name").value("c2e1"))
+                .andExpect(jsonPath("$.employees[0].age").value(211))
+                .andExpect(jsonPath("$.employees[0].gender").value("male"))
+                .andExpect(jsonPath("$.employees[1].name").value("c2e2"))
+                .andExpect(jsonPath("$.employees[1].age").value(221))
+                .andExpect(jsonPath("$.employees[1].gender").value("female"));
+
+    }
+
 }
