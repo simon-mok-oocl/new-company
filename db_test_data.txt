@@ -1,0 +1,20 @@
+db.employee.drop()
+db.createCollection("employee")
+db.employee.insert({"name": "c1e1", "age": 1, "gender": "male", "salary": 2 , "companyId":"1"})
+db.employee.insert({"name": "c1e2", "age": 4, "gender": "female", "salary": 5 , "companyId":"1"})
+
+db.employee.insert({"name": "c2e1", "age": 7, "gender": "male", "salary": 8 , "companyId":"2"})
+db.employee.insert({"name": "c2e2", "age": 10, "gender": "female", "salary": 11 , "companyId":"2"})
+
+db.employee.insert({"name": "c3e1", "age": 13, "gender": "male", "salary": 14 , "companyId":"3"})
+db.employee.insert({"name": "c3e2", "age": 16, "gender": "female", "salary": 17 , "companyId":"3"})
+
+
+db.company.drop()
+db.createCollection("company")
+db.company.insert({"name":"c1"})
+db.company.insert({"name":"c2"})
+db.company.insert({"name":"c3"})
+
+db.employee.find()
+db.company.find()
