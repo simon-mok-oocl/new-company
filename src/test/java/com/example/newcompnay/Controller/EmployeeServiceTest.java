@@ -62,26 +62,32 @@ public class EmployeeServiceTest
                 .andExpect(jsonPath("$[0].name").value("c1e1"))
                 .andExpect(jsonPath("$[0].age").value(111))
                 .andExpect(jsonPath("$[0].gender").value("male"))
+                .andExpect(jsonPath("$[0].companyId").value("1"))
                 .andExpect(jsonPath("$[1].id").isString())   // c1e2
                 .andExpect(jsonPath("$[1].name").value("c1e2"))
                 .andExpect(jsonPath("$[1].age").value(121))
                 .andExpect(jsonPath("$[1].gender").value("female"))
+                .andExpect(jsonPath("$[1].companyId").value("1"))
                 .andExpect(jsonPath("$[2].id").isString())   // c2e1
                 .andExpect(jsonPath("$[2].name").value("c2e1"))
                 .andExpect(jsonPath("$[2].age").value(211))
                 .andExpect(jsonPath("$[2].gender").value("male"))
+                .andExpect(jsonPath("$[2].companyId").value("2"))
                 .andExpect(jsonPath("$[3].id").isString())   // c2e1
                 .andExpect(jsonPath("$[3].name").value("c2e2"))
                 .andExpect(jsonPath("$[3].age").value(221))
                 .andExpect(jsonPath("$[3].gender").value("female"))
+                .andExpect(jsonPath("$[3].companyId").value("2"))
                 .andExpect(jsonPath("$[4].id").isString())   // c2e1
                 .andExpect(jsonPath("$[4].name").value("c3e1"))
                 .andExpect(jsonPath("$[4].age").value(311))
                 .andExpect(jsonPath("$[4].gender").value("male"))
+                .andExpect(jsonPath("$[4].companyId").value("3"))
                 .andExpect(jsonPath("$[5].id").isString())   // c2e1
                 .andExpect(jsonPath("$[5].name").value("c3e2"))
                 .andExpect(jsonPath("$[5].age").value(321))
-                .andExpect(jsonPath("$[5].gender").value("female"));
+                .andExpect(jsonPath("$[5].gender").value("female"))
+                .andExpect(jsonPath("$[5].companyId").value("3"));
 
     }
 
@@ -118,5 +124,64 @@ public class EmployeeServiceTest
                 .andExpect(jsonPath("$.name").value("c2e1"))
                 .andExpect(jsonPath("$.age").value(211))
                 .andExpect(jsonPath("$.gender").value("male"));
+    }
+
+    @Test
+    public void should_get_correct_employee_with_gender_when_get_employee_by_gender_given_gender() throws Exception {
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees").param("gender", "male"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$", hasSize(3)))
+                .andExpect(jsonPath("$[0].id").isString())
+                .andExpect(jsonPath("$[0].name").value("c1e1"))
+                .andExpect(jsonPath("$[0].age").value(111))
+                .andExpect(jsonPath("$[0].gender").value("male"))
+                .andExpect(jsonPath("$[1].id").isString())
+                .andExpect(jsonPath("$[1].name").value("c2e1"))
+                .andExpect(jsonPath("$[1].age").value(211))
+                .andExpect(jsonPath("$[1].gender").value("male"))
+                .andExpect(jsonPath("$[2].id").isString())
+                .andExpect(jsonPath("$[2].name").value("c3e1"))
+                .andExpect(jsonPath("$[2].age").value(311))
+                .andExpect(jsonPath("$[2].gender").value("male"));
+
+    }
+
+    @Test
+    public void should_get_correct_page_when_get_employee_by_page_given_page_and_pagesize() throws Exception {
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees").param("page", "2").param("pageSize" , "2"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").isString())
+                .andExpect(jsonPath("$[0].name").value("c2e1"))
+                .andExpect(jsonPath("$[0].age").value(211))
+                .andExpect(jsonPath("$[0].gender").value("male"))
+                .andExpect(jsonPath("$[0].companyId").value("2"))
+                .andExpect(jsonPath("$[1].id").isString())
+                .andExpect(jsonPath("$[1].name").value("c2e2"))
+                .andExpect(jsonPath("$[1].age").value(221))
+                .andExpect(jsonPath("$[1].gender").value("female"))
+                .andExpect(jsonPath("$[1].companyId").value("2"));;
+
+    }
+
+    @Test
+    public void should_update_employee_when_updateEmployee_given_id_and_employee() throws Exception {
+        String updateEmployee = "{\n" +
+                "        \"age\": 50,\n" +
+                "        \"salary\": 8000\n" +
+                "    }";
+
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.put("/employees/{id}", c1e2.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateEmployee))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.id").value(c1e2.getId()))
+                .andExpect(jsonPath("$.name").value("c1e2"))
+                .andExpect(jsonPath("$.age").value(50))
+                .andExpect(jsonPath("$.gender").value("female"));
+
     }
 }
