@@ -1,6 +1,4 @@
-package com.example.newcompnay.Exception;
-
-import java.util.function.Supplier;
+package com.example.newcompnay.exception;
 
 public class NoSuchEmployeeException extends RuntimeException{
     public NoSuchEmployeeException() {

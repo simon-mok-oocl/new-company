@@ -1,6 +1,6 @@
 package com.example.newcompnay.mapper;
 
-import com.example.newcompnay.Entity.Company;
+import com.example.newcompnay.entity.Company;
 import com.example.newcompnay.dto.CompanyRequest;
 import com.example.newcompnay.dto.CompanyResponse;
 import com.example.newcompnay.dto.EmployeeResponse;

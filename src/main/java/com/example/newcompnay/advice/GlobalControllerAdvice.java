@@ -1,7 +1,7 @@
 package com.example.newcompnay.advice;
 
-import com.example.newcompnay.Exception.NoSuchCompanyException;
-import com.example.newcompnay.Exception.NoSuchEmployeeException;
+import com.example.newcompnay.exception.NoSuchCompanyException;
+import com.example.newcompnay.exception.NoSuchEmployeeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

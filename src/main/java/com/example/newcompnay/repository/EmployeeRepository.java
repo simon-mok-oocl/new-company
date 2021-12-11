@@ -1,6 +1,6 @@
-package com.example.newcompnay.Repository;
+package com.example.newcompnay.repository;
 
-import com.example.newcompnay.Entity.Employee;
+import com.example.newcompnay.entity.Employee;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.example.newcompnay.Exception;
+package com.example.newcompnay.exception;
 
 public class NoSuchCompanyException extends RuntimeException{
     public NoSuchCompanyException() {

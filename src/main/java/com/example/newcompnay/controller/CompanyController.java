@@ -1,7 +1,6 @@
-package com.example.newcompnay.Controller;
+package com.example.newcompnay.controller;
 
-import com.example.newcompnay.Entity.Company;
-import com.example.newcompnay.Service.CompanyService;
+import com.example.newcompnay.service.CompanyService;
 import com.example.newcompnay.dto.CompanyRequest;
 import com.example.newcompnay.dto.CompanyResponse;
 import com.example.newcompnay.dto.EmployeeResponse;

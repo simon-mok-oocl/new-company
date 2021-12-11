@@ -1,17 +1,13 @@
-package com.example.newcompnay.Controller;
+package com.example.newcompnay.controller;
 
-import com.example.newcompnay.Entity.Employee;
-import com.example.newcompnay.Service.EmployeeService;
+import com.example.newcompnay.service.EmployeeService;
 import com.example.newcompnay.dto.EmployeeRequest;
 import com.example.newcompnay.dto.EmployeeResponse;
 import com.example.newcompnay.mapper.EmployeeMapper;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("employees")

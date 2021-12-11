@@ -1,6 +1,5 @@
-package com.example.newcompnay.Entity;
+package com.example.newcompnay.entity;
 
-import com.example.newcompnay.dto.EmployeeRequest;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;

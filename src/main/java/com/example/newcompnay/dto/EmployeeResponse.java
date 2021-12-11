@@ -1,7 +1,5 @@
 package com.example.newcompnay.dto;
 
-import com.example.newcompnay.Entity.Employee;
-
 public class EmployeeResponse {
     private String id;
     private String name;

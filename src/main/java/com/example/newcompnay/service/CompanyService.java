@@ -1,15 +1,14 @@
-package com.example.newcompnay.Service;
+package com.example.newcompnay.service;
 
-import com.example.newcompnay.Entity.Company;
-import com.example.newcompnay.Exception.NoSuchCompanyException;
-import com.example.newcompnay.Repository.CompanyRepository;
-import com.example.newcompnay.Repository.EmployeeRepository;
+import com.example.newcompnay.entity.Company;
+import com.example.newcompnay.exception.NoSuchCompanyException;
+import com.example.newcompnay.repository.CompanyRepository;
+import com.example.newcompnay.repository.EmployeeRepository;
 import com.example.newcompnay.dto.CompanyRequest;
 import com.example.newcompnay.dto.CompanyResponse;
 import com.example.newcompnay.dto.EmployeeResponse;
 import com.example.newcompnay.mapper.CompanyMapper;
 import com.example.newcompnay.mapper.EmployeeMapper;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 

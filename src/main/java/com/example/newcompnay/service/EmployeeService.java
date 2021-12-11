@@ -1,8 +1,8 @@
-package com.example.newcompnay.Service;
+package com.example.newcompnay.service;
 
-import com.example.newcompnay.Entity.Employee;
-import com.example.newcompnay.Exception.NoSuchEmployeeException;
-import com.example.newcompnay.Repository.EmployeeRepository;
+import com.example.newcompnay.entity.Employee;
+import com.example.newcompnay.exception.NoSuchEmployeeException;
+import com.example.newcompnay.repository.EmployeeRepository;
 import com.example.newcompnay.dto.EmployeeRequest;
 import com.example.newcompnay.dto.EmployeeResponse;
 import com.example.newcompnay.mapper.EmployeeMapper;

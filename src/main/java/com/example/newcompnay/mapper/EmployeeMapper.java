@@ -1,6 +1,6 @@
 package com.example.newcompnay.mapper;
 
-import com.example.newcompnay.Entity.Employee;
+import com.example.newcompnay.entity.Employee;
 import com.example.newcompnay.dto.EmployeeRequest;
 import com.example.newcompnay.dto.EmployeeResponse;
 import org.springframework.beans.BeanUtils;
