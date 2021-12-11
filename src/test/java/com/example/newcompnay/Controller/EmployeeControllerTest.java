@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class EmployeeServiceTest
+public class EmployeeControllerTest
 {
 
     @Autowired
@@ -58,32 +58,32 @@ public class EmployeeServiceTest
         mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$", hasSize(6)))
-                .andExpect(jsonPath("$[0].id").isString())
+                .andExpect(jsonPath("$[0].id").value(c1e1.getId()))
                 .andExpect(jsonPath("$[0].name").value("c1e1"))
                 .andExpect(jsonPath("$[0].age").value(111))
                 .andExpect(jsonPath("$[0].gender").value("male"))
                 .andExpect(jsonPath("$[0].companyId").value("1"))
-                .andExpect(jsonPath("$[1].id").isString())   // c1e2
+                .andExpect(jsonPath("$[1].id").value(c1e2.getId()))
                 .andExpect(jsonPath("$[1].name").value("c1e2"))
                 .andExpect(jsonPath("$[1].age").value(121))
                 .andExpect(jsonPath("$[1].gender").value("female"))
                 .andExpect(jsonPath("$[1].companyId").value("1"))
-                .andExpect(jsonPath("$[2].id").isString())   // c2e1
+                .andExpect(jsonPath("$[2].id").value(c2e1.getId()))
                 .andExpect(jsonPath("$[2].name").value("c2e1"))
                 .andExpect(jsonPath("$[2].age").value(211))
                 .andExpect(jsonPath("$[2].gender").value("male"))
                 .andExpect(jsonPath("$[2].companyId").value("2"))
-                .andExpect(jsonPath("$[3].id").isString())   // c2e1
+                .andExpect(jsonPath("$[3].id").value(c2e2.getId()))
                 .andExpect(jsonPath("$[3].name").value("c2e2"))
                 .andExpect(jsonPath("$[3].age").value(221))
                 .andExpect(jsonPath("$[3].gender").value("female"))
                 .andExpect(jsonPath("$[3].companyId").value("2"))
-                .andExpect(jsonPath("$[4].id").isString())   // c2e1
+                .andExpect(jsonPath("$[4].id").value(c3e1.getId()))
                 .andExpect(jsonPath("$[4].name").value("c3e1"))
                 .andExpect(jsonPath("$[4].age").value(311))
                 .andExpect(jsonPath("$[4].gender").value("male"))
                 .andExpect(jsonPath("$[4].companyId").value("3"))
-                .andExpect(jsonPath("$[5].id").isString())   // c2e1
+                .andExpect(jsonPath("$[5].id").value(c3e2.getId()))
                 .andExpect(jsonPath("$[5].name").value("c3e2"))
                 .andExpect(jsonPath("$[5].age").value(321))
                 .andExpect(jsonPath("$[5].gender").value("female"))
@@ -120,7 +120,7 @@ public class EmployeeServiceTest
         // then
         mockMvc.perform(MockMvcRequestBuilders.get("/employees/{id}" , c2e1.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(jsonPath("$.id").isString())
+                .andExpect(jsonPath("$.id").value(c2e1.getId()))
                 .andExpect(jsonPath("$.name").value("c2e1"))
                 .andExpect(jsonPath("$.age").value(211))
                 .andExpect(jsonPath("$.gender").value("male"));
@@ -132,15 +132,15 @@ public class EmployeeServiceTest
         mockMvc.perform(MockMvcRequestBuilders.get("/employees").param("gender", "male"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$[0].id").isString())
+                .andExpect(jsonPath("$[0].id").value(c1e1.getId()))
                 .andExpect(jsonPath("$[0].name").value("c1e1"))
                 .andExpect(jsonPath("$[0].age").value(111))
                 .andExpect(jsonPath("$[0].gender").value("male"))
-                .andExpect(jsonPath("$[1].id").isString())
+                .andExpect(jsonPath("$[1].id").value(c2e1.getId()))
                 .andExpect(jsonPath("$[1].name").value("c2e1"))
                 .andExpect(jsonPath("$[1].age").value(211))
                 .andExpect(jsonPath("$[1].gender").value("male"))
-                .andExpect(jsonPath("$[2].id").isString())
+                .andExpect(jsonPath("$[2].id").value(c3e1.getId()))
                 .andExpect(jsonPath("$[2].name").value("c3e1"))
                 .andExpect(jsonPath("$[2].age").value(311))
                 .andExpect(jsonPath("$[2].gender").value("male"));
@@ -153,12 +153,12 @@ public class EmployeeServiceTest
         mockMvc.perform(MockMvcRequestBuilders.get("/employees").param("page", "2").param("pageSize" , "2"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id").isString())
+                .andExpect(jsonPath("$[0].id").value(c2e1.getId()))
                 .andExpect(jsonPath("$[0].name").value("c2e1"))
                 .andExpect(jsonPath("$[0].age").value(211))
                 .andExpect(jsonPath("$[0].gender").value("male"))
                 .andExpect(jsonPath("$[0].companyId").value("2"))
-                .andExpect(jsonPath("$[1].id").isString())
+                .andExpect(jsonPath("$[1].id").value(c2e2.getId()))
                 .andExpect(jsonPath("$[1].name").value("c2e2"))
                 .andExpect(jsonPath("$[1].age").value(221))
                 .andExpect(jsonPath("$[1].gender").value("female"))
@@ -182,6 +182,14 @@ public class EmployeeServiceTest
                 .andExpect(jsonPath("$.name").value("c1e2"))
                 .andExpect(jsonPath("$.age").value(50))
                 .andExpect(jsonPath("$.gender").value("female"));
+
+    }
+
+    @Test
+    public void should_return_nothing_when_delete_given_id() throws Exception {
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.delete("/employees/{id}" , c3e1.getId()))
+                .andExpect(status().isNoContent());
 
     }
 }
