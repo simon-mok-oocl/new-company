@@ -1,5 +1,6 @@
 package com.example.newcompnay.controller;
 
+import com.example.newcompnay.entity.Company;
 import com.example.newcompnay.service.CompanyService;
 import com.example.newcompnay.dto.CompanyRequest;
 import com.example.newcompnay.dto.CompanyResponse;
@@ -18,7 +19,7 @@ public class CompanyController {
     }
 
     @GetMapping
-    public List<CompanyResponse> getAllCompany() {
+    public List<Company> getAllCompany() {
         return this.companyService.getAll();
     }
 

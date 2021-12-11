@@ -29,13 +29,8 @@ public class CompanyService {
         this.employeeMapper = new EmployeeMapper();
     }
 
-    public List<CompanyResponse> getAll() {
-        List<CompanyResponse> companies = new ArrayList<>();
-        this.companyRepository.findAll().stream()
-                .forEach(company -> companies.add(this.companyMapper.toDto(company , null)));
-
-        return companies;
-        //return this.companyRepository.findAll();
+    public List<Company> getAll() {
+        return this.companyRepository.findAll();
     }
 
     public CompanyResponse updateCompany(String id , CompanyRequest request) {
