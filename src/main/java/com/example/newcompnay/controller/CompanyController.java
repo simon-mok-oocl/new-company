@@ -5,6 +5,7 @@ import com.example.newcompnay.service.CompanyService;
 import com.example.newcompnay.dto.CompanyRequest;
 import com.example.newcompnay.dto.CompanyResponse;
 import com.example.newcompnay.dto.EmployeeResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class CompanyController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CompanyResponse addCompany(@RequestBody CompanyRequest newCompany) {
         return this.companyService.addCompany(newCompany);
     }

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -116,6 +117,23 @@ public class CompanyControllerTest {
 
     }
 
+    @Test
+    public void should_create_company_when_createCompany_given_company() throws Exception {
+        // given
+        String company = "{\n" +
+                "        \"name\": \"c4\"" +
+                "    }";
 
+        // when
+
+        // then
+        mockMvc.perform(MockMvcRequestBuilders.post("/companies")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(company))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(jsonPath("$.id").isString())
+                .andExpect(jsonPath("$.name").value("c4"));
+
+    }
 
 }
