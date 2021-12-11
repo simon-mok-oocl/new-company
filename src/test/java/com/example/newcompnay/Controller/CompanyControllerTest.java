@@ -136,4 +136,28 @@ public class CompanyControllerTest {
 
     }
 
+    @Test
+    public void should_update_comapany_when_updateCompany_given_company() throws Exception {
+        String newCompany = "{\n" +
+                "        \"name\": \"c2 new\"" +
+                "    }";
+
+        // then
+        mockMvc.perform((MockMvcRequestBuilders.put("/companies/{id}" , c2.getId()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newCompany))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(jsonPath("$.id").value(c2.getId()))
+                .andExpect(jsonPath("$.name").value("c2 new"));
+
+    }
+
+    @Test
+    public void should_delete_company_with_id_when_deleteCompanyById_given_id() throws Exception {
+        // then
+        mockMvc.perform((MockMvcRequestBuilders.delete("/companies/{id}", c1.getId())))
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+
+    }
+
 }
