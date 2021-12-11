@@ -151,5 +151,17 @@ public class CompanyServiceTest {
 
     }
 
+    @Test
+    public void should_return_company_when_deleteCompany_given_company()
+    {
+        Company company = new Company("1", "spring");
+        given(companyRepository.findById(any())).willReturn(java.util.Optional.of(company));
+
+       companyService.removeCompany("1");
+
+        verify(companyRepository).delete(company);
+
+    }
+
 
 }
