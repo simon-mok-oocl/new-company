@@ -42,8 +42,8 @@ public class CompanyService {
         return this.companyRepository.save(useCompany);
     }
 
-    public CompanyResponse addCompany(CompanyRequest newCompany) {
-        return this.companyMapper.toDto(this.companyRepository.save(this.companyMapper.toEntity(newCompany)) , null);
+    public Company addCompany(CompanyRequest newCompany) {
+        return this.companyRepository.save(this.companyMapper.toEntity(newCompany));
     }
 
     public void removeCompany(String id) {

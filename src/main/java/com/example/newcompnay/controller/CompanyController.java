@@ -31,7 +31,7 @@ public class CompanyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CompanyResponse addCompany(@RequestBody CompanyRequest newCompany) {
+    public Company addCompany(@RequestBody CompanyRequest newCompany) {
         return this.companyService.addCompany(newCompany);
     }
 
